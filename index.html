@@ -41,10 +41,17 @@
         html { scroll-behavior: smooth; }
         body { background-color: #f8f9fa; }
         
-        .gradient-text {
-            background: linear-gradient(90deg, #287cb2, #064771);
+        @keyframes animated-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .gradient-text-animated {
+            background: linear-gradient(90deg, #fded0d, #287cb2, #064771, #fded0d);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: animated-gradient 4s ease infinite;
         }
 
         .gradient-button {
@@ -54,12 +61,32 @@
         }
         .gradient-button:hover { background-position: right center; }
         
-        .hero-bg {
-            background-image: radial-gradient(circle at 80% 20%, rgba(40, 124, 178, 0.15), transparent 50%),
-                              radial-gradient(circle at 20% 80%, rgba(253, 237, 13, 0.15), transparent 50%);
+        .brand-name-gradient {
+            background: linear-gradient(90deg, #064771, #287cb2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
-        /* --- Image Assembly Animation Styles --- */
+        .hero-bg {
+            background-color: #f0f4f8; 
+            background-image: radial-gradient(circle at 90% 10%, rgba(40, 124, 178, 0.4), transparent 40%),
+                              radial-gradient(circle at 10% 90%, rgba(253, 237, 13, 0.3), transparent 40%),
+                              radial-gradient(circle at 50% 50%, rgba(6, 71, 113, 0.2), transparent 70%);
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(253, 237, 13, 0.6), 0 0 30px rgba(253, 237, 13, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(253, 237, 13, 0.9), 0 0 60px rgba(253, 237, 13, 0.7);
+            }
+        }
+        .cta-glow {
+            animation: glow 2.5s infinite ease-in-out;
+        }
+
         #assembly-container {
             position: relative;
             width: 100%;
@@ -74,17 +101,16 @@
             opacity: 0;
         }
         
-        /* FINAL ASSEMBLED POSITIONS: Precisely aligned for a perfect overlay. */
-        #part-frame { top: 50.5%; left: 50%; width: 85%; transform: translate(-50%, -50%); }
-        #part-wheel-front { top: 60.5%; left: 78.5%; width: 46%; transform: translate(-50%, -50%); }
-        #part-wheel-rear { top: 61%; left: 21.5%; width: 47%; transform: translate(-50%, -50%); }
-        #part-handle { top: 21%; left: 70.5%; width: 38%; transform: translate(-50%, -50%); }
-        #part-seat { top: 23%; left: 31.5%; width: 22%; transform: translate(-50%, -50%); }
-        #part-gears { top: 61.5%; left: 40.5%; width: 30%; transform: translate(-50%, -50%); }
+        #part-frame { top: 50.5%; left: 50%; width: 90%; transform: translate(-50%, -50%); }
+        #part-wheel-front { top: 60.5%; left: 78.5%; width: 48%; transform: translate(-50%, -50%); }
+        #part-wheel-rear { top: 61%; left: 21.5%; width: 49%; transform: translate(-50%, -50%); }
+        #part-handle { top: 21%; left: 70.5%; width: 40%; transform: translate(-50%, -50%); }
+        #part-seat { top: 23%; left: 31.5%; width: 24%; transform: translate(-50%, -50%); }
+        #part-gears { top: 61.5%; left: 40.5%; width: 32%; transform: translate(-50%, -50%); }
         
         #final-bike-image {
             position: absolute;
-            top: 50%; left: 50%; width: 85%;
+            top: 50%; left: 50%; width: 90%;
             transform: translate(-50%, -50%) scale(0.95);
             opacity: 0;
             will-change: transform, opacity;
@@ -98,118 +124,241 @@
         #magic-flash {
             position: absolute;
             top: 50%; left: 50%;
-            width: 100px; height: 100px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(253, 237, 13, 0.7) 30%, transparent 60%);
+            width: 50px; height: 50px;
+            background-color: transparent;
             border-radius: 50%;
             transform: translate(-50%, -50%) scale(0);
             opacity: 0;
         }
         #magic-flash.animate {
-            animation: flash-effect 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            animation: shockwave 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
         }
 
-        @keyframes flash-effect {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0.7; }
-            40% { transform: translate(-50%, -50%) scale(6); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+        @keyframes shockwave {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+                box-shadow: 0 0 5px 5px rgba(253, 237, 13, 0.9), 
+                            0 0 10px 10px rgba(253, 237, 13, 0.6), 
+                            0 0 15px 20px rgba(40, 124, 178, 0.3);
+            }
+            80% { opacity: 0.5; }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+                box-shadow: 0 0 50px 100px rgba(253, 237, 13, 0), 
+                            0 0 60px 120px rgba(253, 237, 13, 0), 
+                            0 0 70px 150px rgba(40, 124, 178, 0);
+            }
         }
 
-        /* Reduced motion fallback */
+        header {
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        header.scrolled {
+            position: fixed;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom-width: 1px;
+            border-color: #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding-bottom: 6px;
+            font-medium;
+            color: #1e293b; 
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover { color: #287cb2; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #287cb2; 
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .nav-link.active {
+            color: #287cb2; 
+            font-weight: 600; 
+        }
+        .nav-link.active::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        #mobile-menu a.active {
+            color: #287cb2; 
+            font-weight: 700; 
+        }
+
+        /* --- [NEW] Service Card Glassmorphism & Button Styles --- */
+        .service-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .card-button {
+            background-color: #fded0d;
+            color: #1e293b;
+            font-weight: 700;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .card-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(253, 237, 13, 0.7);
+        }
+
         @media (prefers-reduced-motion: reduce) {
-            .bike-part-img, #magic-flash, #final-bike-image { 
+            .bike-part-img, #magic-flash, #final-bike-image, .cta-glow { 
                 animation: none !important;
                 transition: none !important; 
             }
         }
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
-        }
-        .animate-scroll { animation: scroll 40s linear infinite; }
     </style>
 </head>
 <body class="text-text-dark font-sans antialiased">
     <div id="root" class="flex flex-col min-h-screen">
-        <header class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-b border-gray-200/80">
-            <div class="max-w-screen-xl mx-auto px-6">
-                <div class="flex items-center justify-between h-20">
-                    <a href="index.html" class="flex items-center gap-3">
-                        <img src="DECCAN.png" alt="Deccan Cycle Mart Logo" class="h-12 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x50/ffffff/0a1a2f?text=Logo';">
-                        <span class="text-xl font-bold text-text-dark hidden sm:block">Deccan Cycle Mart</span>
-                    </a>
-                    <nav class="hidden md:flex items-center space-x-8">
-                        <a href="#home" class="font-semibold text-primary-blue">Home</a>
-                        <a href="#features" class="font-medium text-text-dark hover:text-primary-blue transition-colors">Services</a>
-                        <a href="#about" class="font-medium text-text-dark hover:text-primary-blue transition-colors">About</a>
-                        <a href="#contact" class="font-medium text-text-dark hover:text-primary-blue transition-colors">Contact</a>
-                    </nav>
-                    <div class="hidden md:flex">
-                         <a href="#booking" class="gradient-button text-deep-blue font-bold text-base px-6 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105">Book Service</a>
-                    </div>
-                    <div class="md:hidden">
-                        <button id="mobile-menu-button" class="text-text-dark focus:outline-none">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 bg-white/95">
-                <a href="#home" class="block py-2 text-lg text-primary-blue font-bold">Home</a>
-                <a href="#features" class="block py-2 text-lg transition-colors hover:text-primary-blue">Services</a>
-                <a href="#about" class="block py-2 text-lg transition-colors hover:text-primary-blue">About</a>
-                <a href="#contact" class="block py-2 text-lg transition-colors hover:text-primary-blue">Contact</a>
-                <a href="#booking" class="block mt-2 py-3 text-lg gradient-button text-deep-blue text-center rounded-full font-semibold">Book Service</a>
-            </div>
-        </header>
 
         <main class="flex-grow">
-            <section id="home" class="relative pt-32 pb-20 hero-bg overflow-hidden">
-                <div class="max-w-screen-xl mx-auto px-6 flex flex-col-reverse md:flex-row gap-8 items-center">
-                    <div class="text-center md:text-left z-10">
-                        <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6">
-                            Bollaram’s Most <span class="gradient-text">Trusted</span> Cycle Shop
-                        </h1>
-                        <p class="text-lg md:text-xl text-text-light max-w-xl mx-auto md:mx-0 mb-10">
-                            Sales • Service • Customization • Free Home Pickup & Drop Service within 5 KM
-                        </p>
-                        <div class="relative inline-block">
-                            <button type="button" id="cta-button" class="open-modal-button gradient-button text-deep-blue font-bold text-lg px-10 py-4 rounded-full shadow-lg transition-transform transform hover:scale-105 relative z-10">
-                                Book Free Home Service
-                            </button>
+            <section id="home" class="relative hero-bg overflow-hidden min-h-screen flex flex-col">
+                <header class="absolute top-0 left-0 right-0 z-40">
+                    <div class="max-w-screen-xl mx-auto px-6">
+                        <div class="flex items-center justify-between h-20">
+                            <a href="index.html" class="flex items-center gap-2">
+                                <img src="blue deccan logo.png" alt="Deccan Cycle Mart Logo" class="h-12 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/100x50/ffffff/0a1a2f?text=Logo';">
+                                <span class="text-2xl hidden sm:block brand-name-gradient">Deccan Cycle Mart</span>
+                            </a>
+                            <nav class="hidden md:flex items-center space-x-8">
+                                <a href="#home" class="nav-link active">Home</a>
+                                <a href="#about" class="nav-link">About Us</a>
+                                <a href="#features" class="nav-link">Service</a>
+                                <a href="#media" class="nav-link">Media</a>
+                                <a href="#contact" class="nav-link">Contact</a>
+                            </nav>
+                            <div class="hidden md:flex">
+                                <button type="button" class="open-modal-button gradient-button text-deep-blue font-bold text-base px-6 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105">Book Service</button>
+                            </div>
+                            <div class="md:hidden">
+                                <button id="mobile-menu-button" class="text-text-dark focus:outline-none">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div id="assembly-container" aria-hidden="true">
-                        <img src="Bicycle_Frame.png" id="part-frame" class="bike-part-img" alt="Bicycle Frame">
-                        <img src="bicycle_wheel_front_ani.png" id="part-wheel-front" class="bike-part-img" alt="Bicycle Front Wheel">
-                        <img src="bicycle_back_wheel_ani.png" id="part-wheel-rear" class="bike-part-img" alt="Bicycle Rear Wheel">
-                        <img src="bicyle_handle_ani.png" id="part-handle" class="bike-part-img" alt="Bicycle Handlebars">
-                        <img src="bicycle_seat_ani.png" id="part-seat" class="bike-part-img" alt="Bicycle Seat">
-                        <img src="bicycle_gear_and_pedal_ani.png" id="part-gears" class="bike-part-img" alt="Bicycle Gears and Pedals">
-                        
-                        <div id="magic-flash"></div>
+                    <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 bg-white/95">
+                        <a href="#home" class="block py-2 text-lg">Home</a>
+                        <a href="#about" class="block py-2 text-lg">About Us</a>
+                        <a href="#features" class="block py-2 text-lg">Service</a>
+                        <a href="#media" class="block py-2 text-lg">Media</a>
+                        <a href="#contact" class="block py-2 text-lg">Contact</a>
+                        <a href="#booking" class="block mt-2 py-3 text-lg gradient-button text-deep-blue text-center rounded-full font-semibold">Book Service</a>
+                    </div>
+                </header>
 
-                        <img src="Fully_Assembled_Bicycle.png" id="final-bike-image" alt="Fully Assembled Bicycle">
+                <div class="flex-grow flex items-center">
+                    <div class="max-w-screen-xl mx-auto px-6 flex flex-col-reverse md:flex-row gap-8 items-center w-full">
+                        <div class="text-center md:text-left z-10">
+                            <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6">
+                               Every <span class="gradient-text-animated">Joyful Ride</span> Begins Here.
+                            </h1>
+                            <p class="text-lg md:text-xl text-text-light max-w-xl mx-auto md:mx-0 mb-10">
+                                Bollaram’s Most Trusted Cycle Shop – Sales, Service, Accessories, Rentals & Exchange
+                            </p>
+                            <div class="flex flex-col items-center md:items-start">
+                                <div class="relative inline-block">
+                                    <button type="button" id="cta-button" class="open-modal-button gradient-button text-deep-blue font-bold text-lg px-10 py-4 rounded-full shadow-lg transition-transform transform hover:scale-105 relative z-10 cta-glow">
+                                        Book Free Home Service
+                                    </button>
+                                </div>
+                                <div class="mt-4 flex items-center text-text-light">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <span>Free pickup & drop — 5 km (Bollaram)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="assembly-container" aria-hidden="true">
+                            <img src="Bicycle_Frame.png" id="part-frame" class="bike-part-img" alt="Bicycle Frame">
+                            <img src="bicycle_wheel_front_ani.png" id="part-wheel-front" class="bike-part-img" alt="Bicycle Front Wheel">
+                            <img src="bicycle_back_wheel_ani.png" id="part-wheel-rear" class="bike-part-img" alt="Bicycle Rear Wheel">
+                            <img src="bicyle_handle_ani.png" id="part-handle" class="bike-part-img" alt="Bicycle Handlebars">
+                            <img src="bicycle_seat_ani.png" id="part-seat" class="bike-part-img" alt="Bicycle Seat">
+                            <img src="bicycle_gear_and_pedal_ani.png" id="part-gears" class="bike-part-img" alt="Bicycle Gears and Pedals">
+                            <div id="magic-flash"></div>
+                            <img src="Fully_Assembled_Bicycle.png" id="final-bike-image" alt="Fully Assembled Bicycle">
+                        </div>
                     </div>
                 </div>
             </section>
             
-            <div class="bg-white py-8 overflow-hidden whitespace-nowrap border-y border-gray-200">
-                 <div class="inline-block animate-scroll grayscale"><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">FIREFOX</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">HERO</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">HERCULES</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">MONTRA</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">VICTOR 91</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">SCHNELL</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">ATLAS</span></div>
-                 <div class="inline-block animate-scroll grayscale"><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">FIREFOX</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">HERO</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">HERCULES</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">MONTRA</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">VICTOR 91</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">SCHNELL</span><span class="mx-10 text-gray-500 font-bold text-lg tracking-wider">ATLAS</span></div>
-            </div>
-
-            <section id="features" class="py-24">
+            <!-- --- [NEW] "What We Offer" Section --- -->
+            <section id="features" class="py-24 bg-light-bg">
                 <div class="max-w-screen-xl mx-auto px-6">
                     <div class="text-center mb-16">
                         <h2 class="text-4xl md:text-5xl font-bold tracking-tight">What We Offer</h2>
                         <p class="text-lg text-text-light mt-4 max-w-2xl mx-auto">Everything you need for a perfect cycling experience, all in one place.</p>
                     </div>
+                    <!-- Service cards grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="bg-white p-8 rounded-2xl text-center shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"><div class="text-4xl mb-4 text-primary-blue">🚲</div><h3 class="text-xl font-semibold mb-2">Cycle Sales</h3><p class="text-text-light">Premium kids & adult cycles from top brands.</p></div>
-                        <div class="bg-white p-8 rounded-2xl text-center shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"><div class="text-4xl mb-4 text-primary-blue">🛠️</div><h3 class="text-xl font-semibold mb-2">Parts & Repairs</h3><p class="text-text-light">Brakes, chains, tires, and expert servicing.</p></div>
-                        <div class="bg-white p-8 rounded-2xl text-center shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"><div class="text-4xl mb-4 text-primary-blue">🧰</div><h3 class="text-xl font-semibold mb-2">Customization</h3><p class="text-text-light">Unique modifications, accessories, and styling.</p></div>
-                        <div class="bg-white p-8 rounded-2xl text-center shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"><div class="text-4xl mb-4 text-primary-blue">🏠</div><h3 class="text-xl font-semibold mb-2">Free Home Service</h3><p class="text-text-light">Convenient pickup & drop within a 5 km radius.</p></div>
+                        
+                        <!-- Card 1: Cycle Sales -->
+                        <div class="service-card rounded-2xl p-8 flex flex-col text-center items-center">
+                            <div class="mb-4">
+                                <svg class="w-16 h-16 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 18.734V6.5A2.5 2.5 0 019.5 4h.086c.938 0 1.757.547 2.122 1.391L13 9h1zm0 0L13.5 7m-1.5-3.5L12 2.5" transform="translate(0 -1) scale(0.9)"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 text-deep-blue">Cycle Sales</h3>
+                            <p class="text-text-light mb-6 flex-grow">Explore premium kids’ cycles, MTBs, and road bikes — all at best prices.</p>
+                            <a href="https://wa.me/918332993068" target="_blank" class="card-button w-full py-3 rounded-full text-center">View Collection</a>
+                        </div>
+
+                        <!-- Card 2: Pickup & Drop -->
+                        <div class="service-card rounded-2xl p-8 flex flex-col text-center items-center">
+                            <div class="mb-4">
+                                <svg class="w-16 h-16 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 text-deep-blue">Pickup & Drop</h3>
+                            <p class="text-text-light mb-6 flex-grow">Tension-free home service with free pickup & drop within 5 KM.</p>
+                            <button type="button" class="card-button w-full py-3 rounded-full open-service-modal">Book Service</button>
+                        </div>
+
+                        <!-- Card 3: Cycle Rentals -->
+                        <div class="service-card rounded-2xl p-8 flex flex-col text-center items-center">
+                            <div class="mb-4">
+                               <svg class="w-16 h-16 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 text-deep-blue">Cycle Rentals</h3>
+                            <p class="text-text-light mb-6 flex-grow">Affordable short and long-term cycle rentals for students & families.</p>
+                            <a href="#rental-plans" class="card-button w-full py-3 rounded-full text-center">See Plans</a>
+                        </div>
+
+                        <!-- Card 4: Easy Exchange -->
+                        <div class="service-card rounded-2xl p-8 flex flex-col text-center items-center">
+                            <div class="mb-4">
+                                <svg class="w-16 h-16 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 text-deep-blue">Easy Exchange</h3>
+                            <p class="text-text-light mb-6 flex-grow">Exchange your old cycle for a new one at fair value.</p>
+                            <button type="button" class="card-button w-full py-3 rounded-full open-exchange-modal">Check Value</button>
+                            <a href="#services-page" class="text-primary-blue mt-4 font-semibold text-sm hover:underline">See More →</a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -299,47 +448,104 @@
         <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.269.655 4.398 1.908 6.161l.16.244-1.149 4.204 4.288-1.121.232.165z"/></svg>
     </a>
     
-    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none">
-        <div id="modal-content" class="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl p-8 transform transition-all duration-300 ease-in-out scale-95 opacity-0">
-            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors">
+    <!-- --- [NEW] Service Booking Modal --- -->
+    <div id="service-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none">
+        <div id="service-modal-content" class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 transform transition-all duration-300 ease-in-out scale-95 opacity-0">
+            <button class="close-modal-button absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <div class="max-w-xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Book a Free Home Service</h2>
-                <form action="https://formsubmit.co/deccancyclemart@gmail.com" method="POST" class="space-y-6">
-                    <div><input type="text" name="name" required class="w-full bg-white border-2 border-gray-300 rounded-lg p-4 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Name"></div>
-                    <div><input type="tel" name="phone" required class="w-full bg-white border-2 border-gray-300 rounded-lg p-4 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Phone Number"></div>
-                    <div>
-                        <textarea name="address" id="modal-address" rows="3" required class="w-full bg-white border-2 border-gray-300 rounded-lg p-4 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Full Address"></textarea>
-                        <button type="button" id="modal-getLocationBtn" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-text-light font-semibold py-3 px-4 border border-gray-300 rounded-lg shadow-sm transition-colors flex items-center justify-center">
-                           <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                            Use My Current Location
-                        </button>
-                        <p id="modal-location-status" class="text-sm mt-2 h-5 text-center"></p>
-                    </div>
-                    <input type="hidden" name="coordinates" id="modal-coordinates">
-                    <div><textarea name="service" id="modal-service" rows="3" placeholder="e.g., Assembly, Repair, Tuning, etc." required class="w-full bg-white border-2 border-gray-300 rounded-lg p-4 focus:border-primary-blue focus:ring-primary-blue transition"></textarea></div>
-                    <input type="hidden" name="_next" value="https://wa.me/918332993068?text=Hi, I just submitted a home service request on your website.">
-                    <input type="hidden" name="_subject" value="New Home Service Request from MODAL!">
-                    <input type="hidden" name="_captcha" value="false">
-                    <button type="submit" class="w-full gradient-button text-deep-blue font-bold text-lg py-4 rounded-full shadow-lg transition-transform transform hover:scale-105">Submit Request</button>
-                </form>
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-deep-blue">Book Home Service</h2>
+                <p class="text-text-light mt-2">Enter your details and we'll arrange a pickup.</p>
             </div>
+            <form action="https://formsubmit.co/deccancyclemart@gmail.com" method="POST" class="space-y-4">
+                <input type="text" name="name" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Name">
+                <input type="tel" name="phone" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Phone Number">
+                <textarea name="address" rows="3" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Full Address"></textarea>
+                <textarea name="issue" rows="3" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Describe the issue with your cycle"></textarea>
+                <input type="hidden" name="_subject" value="New Home Service Request!">
+                <input type="hidden" name="_captcha" value="false">
+                <button type="submit" class="w-full card-button py-3 rounded-full text-lg">Submit Request</button>
+            </form>
         </div>
     </div>
 
+    <!-- --- [NEW] Exchange Value Modal --- -->
+    <div id="exchange-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none">
+        <div id="exchange-modal-content" class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 transform transition-all duration-300 ease-in-out scale-95 opacity-0">
+            <button class="close-modal-button absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors">
+                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-deep-blue">Check Exchange Value</h2>
+                <p class="text-text-light mt-2">Provide details of your old cycle to get an estimate.</p>
+            </div>
+            <form action="https://formsubmit.co/deccancyclemart@gmail.com" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <input type="text" name="name" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Name">
+                <input type="tel" name="phone" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Phone Number">
+                <input type="text" name="cycle_details" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Bicycle Brand & Years Used (e.g., Hero, 3 years)">
+                <textarea name="address" rows="3" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg p-3 focus:border-primary-blue focus:ring-primary-blue transition" placeholder="Your Full Address"></textarea>
+                <div>
+                    <label for="photos" class="block text-sm font-medium text-text-dark mb-2">Upload Photos (Optional, up to 3):</label>
+                    <input type="file" name="attachment" accept="image/*" multiple class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"/>
+                </div>
+                <input type="hidden" name="_subject" value="New Exchange Request!">
+                <input type="hidden" name="_captcha" value="false">
+                <button type="submit" class="w-full card-button py-3 rounded-full text-lg">Get Estimate</button>
+            </form>
+        </div>
+    </div>
+
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- Mobile Menu Toggle ---
+        const header = document.querySelector('header');
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+        
         if (mobileMenuButton) {
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
         }
 
-        // --- Image Assembly Animation Logic ---
+        const sections = document.querySelectorAll('main section[id]');
+        const navLinks = document.querySelectorAll('header nav a, #mobile-menu a[href^="#"]');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.6 
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').endsWith(`#${id}`)) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
         const assemblyContainer = document.getElementById('assembly-container');
         if (assemblyContainer) {
             const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -379,37 +585,31 @@
                     return;
                 }
                 
-                // Animate parts flying to their final positions (defined in CSS)
                 parts.forEach((part, index) => {
                     if (!part) return;
                     setTimeout(() => {
                         part.style.transition = 'opacity 0.8s ease-out, transform 1.5s cubic-bezier(0.23, 1, 0.32, 1)';
                         part.style.opacity = '1';
-                        // The final transform is set in the CSS, this just resets it from the 'from' state
                         part.style.transform = 'translate(-50%, -50%)';
                     }, index * 150);
                 });
                 
-                // Trigger magic flash after parts have arrived
                 setTimeout(() => {
                     magicFlash.classList.add('animate');
-                }, 1800); // Increased delay for parts to settle
+                }, 1600); 
 
-                // Hide parts right as flash happens, then show final bike
                 setTimeout(() => {
                     parts.forEach(p => {
                         p.style.transition = 'opacity 0.3s ease-out';
                         p.style.opacity = '0';
                     });
-                }, 1900);
+                }, 1700);
 
-                // Reveal the final bike image just after the flash peaks
                 setTimeout(() => {
                     finalBikeImage.classList.add('visible');
-                }, 2100);
+                }, 1900);
             };
             
-            // --- Init and Event Listeners ---
             initializePartPositions(); 
 
             if ('IntersectionObserver' in window) {
@@ -425,92 +625,33 @@
             }
         }
         
-        // --- Booking Modal Logic ---
-        const bookingModal = document.getElementById('booking-modal');
-        const modalContent = document.getElementById('modal-content');
-        const openModalButtons = document.querySelectorAll('.open-modal-button');
-        const closeModalButton = document.getElementById('close-modal-button');
+        // --- [NEW] Modal Handling Logic ---
+        function initializeModal(modalId, openButtonsClass, contentId) {
+            const modal = document.getElementById(modalId);
+            const openButtons = document.querySelectorAll(`.${openButtonsClass}`);
+            const content = document.getElementById(contentId);
+            const closeButtons = modal.querySelectorAll('.close-modal-button');
 
-        if (bookingModal) {
             const openModal = () => {
-                bookingModal.classList.remove('opacity-0', 'pointer-events-none');
-                modalContent.classList.remove('opacity-0', 'scale-95');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('opacity-0', 'scale-95');
             };
-
             const closeModal = () => {
-                modalContent.classList.add('opacity-0', 'scale-95');
-                bookingModal.classList.add('opacity-0');
-                setTimeout(() => {
-                    bookingModal.classList.add('pointer-events-none');
-                }, 300);
+                content.classList.add('opacity-0', 'scale-95');
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('pointer-events-none'), 300);
             };
 
-            openModalButtons.forEach(button => button.addEventListener('click', openModal));
-            if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
-            
-            bookingModal.addEventListener('click', (event) => {
-                if (event.target === bookingModal) {
-                    closeModal();
-                }
+            openButtons.forEach(btn => btn.addEventListener('click', openModal));
+            closeButtons.forEach(btn => btn.addEventListener('click', closeModal));
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
             });
         }
 
-        // --- Geolocation Function ---
-        function initializeGeolocation(btnId, addressId, coordinatesId, statusId) {
-            const getLocationBtn = document.getElementById(btnId);
-            if (!getLocationBtn) return;
-            
-            const addressTextarea = document.getElementById(addressId);
-            const coordinatesInput = document.getElementById(coordinatesId);
-            const locationStatus = document.getElementById(statusId);
-            const apiKey = 'pk.364e92e46f917958d4ccfed120c0b0e4';
+        initializeModal('service-modal', 'open-service-modal', 'service-modal-content');
+        initializeModal('exchange-modal', 'open-exchange-modal', 'exchange-modal-content');
 
-            getLocationBtn.addEventListener('click', () => {
-                if (!navigator.geolocation) {
-                    locationStatus.textContent = '❗ Geo not supported.';
-                    locationStatus.className = 'text-sm mt-2 h-5 text-center text-red-500';
-                    return;
-                }
-
-                locationStatus.textContent = 'Fetching location...';
-                locationStatus.className = 'text-sm mt-2 h-5 text-center text-text-light';
-                getLocationBtn.disabled = true;
-
-                navigator.geolocation.getCurrentPosition(
-                    (position) => success(position, addressTextarea, coordinatesInput, locationStatus, getLocationBtn, apiKey),
-                    () => error(locationStatus, getLocationBtn)
-                );
-            });
-        }
-
-        function success(position, addressTextarea, coordinatesInput, locationStatus, getLocationBtn, apiKey) {
-            const { latitude, longitude } = position.coords;
-            coordinatesInput.value = `${latitude}, ${longitude}`;
-            const apiUrl = `https://us1.locationiq.com/v1/reverse.php?key=${apiKey}&lat=${latitude}&lon=${longitude}&format=json`;
-
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.display_name) {
-                        addressTextarea.value = data.display_name;
-                    }
-                })
-                .catch(err => console.error('Error fetching address:', err))
-                .finally(() => {
-                    locationStatus.textContent = '✅ Location Captured!';
-                    locationStatus.className = 'text-sm mt-2 h-5 text-center text-green-500';
-                    getLocationBtn.disabled = false;
-                });
-        }
-
-        function error(locationStatus, getLocationBtn) {
-            locationStatus.textContent = '❗ Unable to get location.';
-            locationStatus.className = 'text-sm mt-2 h-5 text-center text-red-500';
-            getLocationBtn.disabled = false;
-        }
-        
-        initializeGeolocation('page-getLocationBtn', 'page-address', 'page-coordinates', 'page-location-status');
-        initializeGeolocation('modal-getLocationBtn', 'modal-address', 'modal-coordinates', 'modal-location-status');
     });
     </script>
 </body>
